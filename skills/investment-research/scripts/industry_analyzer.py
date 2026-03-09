@@ -237,7 +237,9 @@ class IndustryImpactAnalyzer:
                               yield_curve_status: str = "normal",
                               market_regime: str = "mixed",
                               oil_change: float = 0,
-                              gold_change: float = 0) -> str:
+                              gold_change: float = 0,
+                              oil_anomaly: bool = False,
+                              oil_anomaly_reason: str = None) -> str:
         """生成行业影响报告"""
         lines = []
         lines.append("=" * 70)

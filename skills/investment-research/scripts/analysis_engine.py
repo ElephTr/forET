@@ -358,20 +358,28 @@ class InvestmentAnalysisEngine:
         all_markets = self.market_agg.get_all_markets()
         oil_change = 0
         gold_change = 0
+        oil_anomaly = False
+        oil_anomaly_reason = None
+        
         for market_id, data in all_markets.items():
             if market_id == "CRUDE" and data.change_pct:
                 oil_change = data.change_pct.value
+                # 检查是否有异常标记
+                if hasattr(data.price, 'is_verified') and not data.price.is_verified:
+                    oil_anomaly = True
             elif market_id == "GOLD" and data.change_pct:
                 gold_change = data.change_pct.value
         
         # 生成简化的行业影响分析
         lines.extend(self._generate_sector_impact_summary(
-            industry_analyzer, vix_level, regime["regime"], oil_change, gold_change
+            industry_analyzer, vix_level, regime["regime"], oil_change, gold_change,
+            oil_anomaly, oil_anomaly_reason
         ))
         
         return "\n".join(lines)
         
-    def _generate_sector_impact_summary(self, analyzer, vix_level, regime, oil_change, gold_change) -> List[str]:
+    def _generate_sector_impact_summary(self, analyzer, vix_level, regime, oil_change, gold_change,
+                                       oil_anomaly=False, oil_anomaly_reason=None) -> List[str]:
         """生成简化的行业影响摘要"""
         lines = []
         
@@ -404,12 +412,25 @@ class InvestmentAnalysisEngine:
             lines.append("   承压: 半导体、工业、可选消费")
             lines.append("   原因: 周期敏感，衰退担忧")
             
-        if oil_change > 10:
-            lines.append("\n🟢 原油大涨 %.1f%%" % oil_change)
-            lines.append("   受益: 能源、油气设备")
-            lines.append("   原因: 现金流改善，资本开支增加")
-            lines.append("   承压: 航空、化工、物流")
-            lines.append("   原因: 成本上升，利润率压缩")
+        if abs(oil_change) > 10:
+            if oil_anomaly:
+                lines.append("\n⚠️ 原油数据异常 (涨跌%.1f%%)" % abs(oil_change))
+                lines.append("   可能原因: 期货合约换月、数据错误或地缘突发事件")
+                lines.append("   建议: 通过其他数据源验证后再做决策")
+            else:
+                direction = "大涨" if oil_change > 0 else "大跌"
+                lines.append("\n%s 原油%s %.1f%%" % ("🟢" if oil_change > 0 else "🔴", direction, abs(oil_change)))
+                
+                if oil_change > 0:
+                    lines.append("   受益: 能源、油气设备")
+                    lines.append("   原因: 现金流改善，资本开支增加")
+                    lines.append("   承压: 航空、化工、物流")
+                    lines.append("   原因: 成本上升，利润率压缩")
+                else:
+                    lines.append("   受益: 航空、化工、物流")
+                    lines.append("   原因: 成本下降，利润率改善")
+                    lines.append("   承压: 能源、油气设备")
+                    lines.append("   原因: 收入下降，投资缩减")
             
         # 3. 投资思考
         lines.append("\n💡 基于行业逻辑的思考")
@@ -421,7 +442,7 @@ class InvestmentAnalysisEngine:
             lines.append("• 回避高估值板块")
             lines.append("  └─ 科技、生物制药: 估值压缩风险大")
             
-        if oil_change > 10:
+        if oil_change > 10 and not oil_anomaly:
             lines.append("• 能源板块机会")
             lines.append("  └─ 油价上涨直接受益，关注现金流改善标的")
             

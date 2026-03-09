@@ -69,15 +69,38 @@ class YahooFinanceSource(DataSource):
             change = latest_price - prev_price
             change_pct = (change / prev_price) * 100 if prev_price != 0 else 0
             
-            return {
+            # 数据异常检测
+            is_anomaly = False
+            anomaly_reason = None
+            confidence = 80
+            
+            if abs(change_pct) > 20:  # 单日涨跌超过20%视为异常
+                # 尝试用更早的数据点验证
+                if len(closes) > 2:
+                    prev_prev_price = closes[-3]
+                    prev_change_pct = ((prev_price - prev_prev_price) / prev_prev_price) * 100
+                    
+                    # 如果前一天正常，可能是合约换月或数据错误
+                    if abs(prev_change_pct) < 5:
+                        is_anomaly = True
+                        anomaly_reason = f"单日涨跌{change_pct:.1f}%异常，可能是合约换月或数据错误"
+                        confidence = 50  # 降低可信度
+            
+            result = {
                 "price": latest_price,
                 "change": change,
                 "change_pct": change_pct,
                 "volume": volumes[-1] if volumes else None,
                 "timestamp": datetime.now(),
                 "source": self.name,
-                "confidence": 80
+                "confidence": confidence
             }
+            
+            if is_anomaly:
+                result["anomaly"] = True
+                result["anomaly_reason"] = anomaly_reason
+            
+            return result
         except Exception as e:
             return None
 
