@@ -16,6 +16,7 @@ sys.path.insert(0, '/root/.openclaw/workspace/skills/investment-research/scripts
 from global_market_aggregator import GlobalMarketDataAggregator
 from macro_monitor import MacroDataMonitor, format_macro_report
 from sentiment_monitor import MarketSentimentMonitor
+from industry_analyzer import IndustryImpactAnalyzer
 
 class SignalType(Enum):
     STRONG_BUY = "强烈买入"
@@ -341,37 +342,94 @@ class InvestmentAnalysisEngine:
             for risk in signal.risk_factors:
                 lines.append(f"      ⚠️  {risk}")
                 
-        # 4. 操作建议
-        lines.append("\n📝 操作建议")
-        lines.append("-" * 50)
-        
-        # 根据市场状态和信号生成操作建议
-        regime_type = regime["regime"]
-        stock_signal = signals["stocks"].signal
-        
-        if regime_type == "risk_off" or stock_signal in [SignalType.SELL, SignalType.STRONG_SELL, SignalType.REDUCE]:
-            lines.append("  🔴 防御为主")
-            lines.append("     • 降低股票仓位至50%以下")
-            lines.append("     • 增配黄金和现金")
-            lines.append("     • 关注超跌反弹机会，但控制仓位")
-        elif regime_type == "risk_on":
-            lines.append("  🟢 积极参与")
-            lines.append("     • 维持或适度增加股票仓位")
-            lines.append("     • 关注领涨板块和个股")
-            lines.append("     • 设置止损，控制回撤")
-        else:
-            lines.append("  ⚪ 保持观望")
-            lines.append("     • 维持当前仓位，不做大幅调整")
-            lines.append("     • 等待方向明确后再行动")
-            lines.append("     • 关注结构性机会")
-            
+        # 4. 行业影响分析（新增）
         lines.append("\n" + "=" * 70)
-        lines.append("⚠️  免责声明")
-        lines.append("  本报告仅供参考，不构成投资建议。")
-        lines.append("  投资有风险，入市需谨慎。过往表现不代表未来收益。")
+        lines.append("🏭 行业影响分析")
         lines.append("=" * 70)
         
+        # 获取行业分析
+        industry_analyzer = IndustryImpactAnalyzer()
+        
+        # 获取当前市场数据用于行业分析
+        vix_data = self.sentiment_monitor._get_vix_data()
+        vix_level = vix_data["value"] if vix_data else 20
+        
+        # 获取原油和黄金变化
+        all_markets = self.market_agg.get_all_markets()
+        oil_change = 0
+        gold_change = 0
+        for market_id, data in all_markets.items():
+            if market_id == "CRUDE" and data.change_pct:
+                oil_change = data.change_pct.value
+            elif market_id == "GOLD" and data.change_pct:
+                gold_change = data.change_pct.value
+        
+        # 生成简化的行业影响分析
+        lines.extend(self._generate_sector_impact_summary(
+            industry_analyzer, vix_level, regime["regime"], oil_change, gold_change
+        ))
+        
         return "\n".join(lines)
+        
+    def _generate_sector_impact_summary(self, analyzer, vix_level, regime, oil_change, gold_change) -> List[str]:
+        """生成简化的行业影响摘要"""
+        lines = []
+        
+        # 1. 板块表现
+        lines.append("\n📈 板块表现")
+        lines.append("-" * 50)
+        sectors = analyzer.get_sector_performance()
+        if sectors:
+            sorted_sectors = sorted(sectors.items(), key=lambda x: x[1].change_pct, reverse=True)
+            lines.append("🟢 领涨:")
+            for name, data in sorted_sectors[:3]:
+                lines.append(f"  {name:12} {data.symbol:6}  {data.change_pct:>+.2f}%")
+            lines.append("🔴 领跌:")
+            for name, data in sorted_sectors[-3:]:
+                lines.append(f"  {name:12} {data.symbol:6}  {data.change_pct:>+.2f}%")
+        
+        # 2. 宏观 → 行业影响
+        lines.append("\n🎯 宏观因素 → 行业影响")
+        lines.append("-" * 50)
+        
+        if vix_level > 25:
+            lines.append("🔴 VIX飙升至%.1f" % vix_level)
+            lines.append("   承压: 科技、高估值成长股")
+            lines.append("   原因: 对贴现率敏感，估值压缩风险")
+            lines.append("   受益: 公用事业、消费必需、黄金")
+            lines.append("   原因: 盈利稳定，避险需求")
+            
+        if regime == "risk_off":
+            lines.append("\n🔴 全球风险规避")
+            lines.append("   承压: 半导体、工业、可选消费")
+            lines.append("   原因: 周期敏感，衰退担忧")
+            
+        if oil_change > 10:
+            lines.append("\n🟢 原油大涨 %.1f%%" % oil_change)
+            lines.append("   受益: 能源、油气设备")
+            lines.append("   原因: 现金流改善，资本开支增加")
+            lines.append("   承压: 航空、化工、物流")
+            lines.append("   原因: 成本上升，利润率压缩")
+            
+        # 3. 投资思考
+        lines.append("\n💡 基于行业逻辑的思考")
+        lines.append("-" * 50)
+        
+        if vix_level > 25 and regime == "risk_off":
+            lines.append("• 防御性配置优先")
+            lines.append("  └─ 公用事业、消费必需: 盈利稳定，股息率高")
+            lines.append("• 回避高估值板块")
+            lines.append("  └─ 科技、生物制药: 估值压缩风险大")
+            
+        if oil_change > 10:
+            lines.append("• 能源板块机会")
+            lines.append("  └─ 油价上涨直接受益，关注现金流改善标的")
+            
+        lines.append("\n" + "=" * 70)
+        lines.append("⚠️  免责声明: 以上分析基于公开数据，不构成投资建议")
+        lines.append("=" * 70)
+        
+        return lines
 
 if __name__ == "__main__":
     engine = InvestmentAnalysisEngine()
