@@ -64,6 +64,12 @@ def cmd_enhanced(args):
     analyzer = EnhancedOpportunityAnalyzer()
     print(analyzer.generate_enhanced_report())
 
+def cmd_crossborder(args):
+    """跨境电商深度分析"""
+    from crossborder_analyzer import CrossBorderEcommerceAnalyzer
+    analyzer = CrossBorderEcommerceAnalyzer()
+    print(analyzer.generate_report())
+
 def main():
     parser = argparse.ArgumentParser(
         description="商业机会分析工具",
@@ -79,8 +85,11 @@ def main():
     
     subparsers = parser.add_subparsers(dest="command", help="可用命令")
     
-    # enhanced 命令（新增）
+    # enhanced 命令
     enhanced_parser = subparsers.add_parser("enhanced", help="增强版分析（基于市场信号）")
+    
+    # crossborder 命令（新增）
+    crossborder_parser = subparsers.add_parser("crossborder", help="跨境电商深度分析")
     
     # scan 命令
     scan_parser = subparsers.add_parser("scan", help="扫描商业机会")
@@ -100,6 +109,7 @@ def main():
     
     commands = {
         "enhanced": cmd_enhanced,
+        "crossborder": cmd_crossborder,
         "scan": cmd_scan,
         "analyze": cmd_analyze,
     }
