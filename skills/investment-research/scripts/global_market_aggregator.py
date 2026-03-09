@@ -439,11 +439,14 @@ class GlobalMarketDataAggregator:
             if region in regions:
                 regions[region]["markets"].append(data)
                 
-        # 计算各地区平均涨跌幅
+        # 计算各地区平均涨跌幅（排除波动率指标）
         for region, info in regions.items():
             if info["markets"]:
-                changes = [m.change_pct.value for m in info["markets"] if m.change_pct]
-                if changes:
+                # 排除波动率指标（VIX等）
+                non_volatility_markets = [m for m in info["markets"] 
+                                          if m.change_pct and "波动率" not in m.name and "VIX" not in m.symbol]
+                if non_volatility_markets:
+                    changes = [m.change_pct.value for m in non_volatility_markets]
                     info["avg_change"] = sum(changes) / len(changes)
                     
         return regions

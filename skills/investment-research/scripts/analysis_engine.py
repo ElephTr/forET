@@ -53,12 +53,16 @@ class InvestmentAnalysisEngine:
         # 获取全球市场数据
         all_markets = self.market_agg.get_all_markets()
         
-        # 计算各区域表现
+        # 计算各区域表现（排除波动率指标）
         region_performance = {}
         for market_id, data in all_markets.items():
             from global_market_aggregator import GlobalMarketDataAggregator
             config = GlobalMarketDataAggregator.MARKETS.get(market_id, {})
             region = config.get("region", "OTHER")
+            
+            # 跳过波动率指标
+            if "波动率" in data.name or "VIX" in data.symbol:
+                continue
             
             if region not in region_performance:
                 region_performance[region] = []
@@ -85,14 +89,26 @@ class InvestmentAnalysisEngine:
         """分类市场状态"""
         us_perf = region_perf.get("US", 0)
         cn_perf = region_perf.get("CN", 0)
+        eu_perf = region_perf.get("EU", 0)
+        jp_perf = region_perf.get("JP", 0)
         
-        if us_perf < -2 and cn_perf < -2:
+        # 计算全球市场平均（主要市场）
+        major_markets = [us_perf, cn_perf, eu_perf, jp_perf]
+        major_markets = [m for m in major_markets if m != 0]  # 排除无数据
+        global_avg = sum(major_markets) / len(major_markets) if major_markets else 0
+        
+        # 风险资产下跌的市场数量
+        declining_count = sum(1 for v in [us_perf, cn_perf, eu_perf, jp_perf] if v < 0)
+        
+        if global_avg < -2:
             return "risk_off"  # 全球风险规避
-        elif us_perf > 1 and cn_perf > 1:
+        elif global_avg > 1:
             return "risk_on"  # 全球风险偏好
-        elif us_perf > 0 > cn_perf:
+        elif declining_count >= 3:  # 3个以上主要市场下跌
+            return "risk_off"  # 普遍下跌
+        elif us_perf > 0 and cn_perf < 0 and us_perf > cn_perf + 1:
             return "us_leading"  # 美股独强
-        elif cn_perf > 0 > us_perf:
+        elif cn_perf > 0 and us_perf < 0 and cn_perf > us_perf + 1:
             return "china_leading"  # A股独强
         else:
             return "mixed"  # 分化
@@ -329,16 +345,16 @@ class InvestmentAnalysisEngine:
         lines.append("\n📝 操作建议")
         lines.append("-" * 50)
         
-        # 根据整体信号生成操作建议
-        buy_signals = sum(1 for s in signals.values() if s.signal in [SignalType.BUY, SignalType.STRONG_BUY])
-        sell_signals = sum(1 for s in signals.values() if s.signal in [SignalType.SELL, SignalType.STRONG_SELL, SignalType.REDUCE])
+        # 根据市场状态和信号生成操作建议
+        regime_type = regime["regime"]
+        stock_signal = signals["stocks"].signal
         
-        if sell_signals >= 2:
+        if regime_type == "risk_off" or stock_signal in [SignalType.SELL, SignalType.STRONG_SELL, SignalType.REDUCE]:
             lines.append("  🔴 防御为主")
             lines.append("     • 降低股票仓位至50%以下")
             lines.append("     • 增配黄金和现金")
             lines.append("     • 关注超跌反弹机会，但控制仓位")
-        elif buy_signals >= 2:
+        elif regime_type == "risk_on":
             lines.append("  🟢 积极参与")
             lines.append("     • 维持或适度增加股票仓位")
             lines.append("     • 关注领涨板块和个股")

@@ -185,42 +185,38 @@ class MarketSentimentMonitor:
             
     def get_a_share_sentiment(self) -> Dict:
         """A股市场情绪指标"""
-        sentiment = {}
-        
         try:
-            # 北向资金流向（需要东方财富或其他API）
-            # 这里使用模拟框架
-            sentiment["northbound"] = {
-                "name": "北向资金",
-                "status": "需要数据源",
-                "signal": "⚪ 待接入"
-            }
+            from a_share_data import AShareDataSource
+            source = AShareDataSource()
+            sentiment_data = source.get_market_sentiment_indicators()
             
-            # 融资余额变化
-            sentiment["margin"] = {
-                "name": "融资余额",
-                "status": "需要数据源",
-                "signal": "⚪ 待接入"
+            return {
+                "index_sentiment": {
+                    "name": f"{sentiment_data.get('index', 'A股')}情绪",
+                    "change_pct": sentiment_data.get('change_pct', 0),
+                    "sentiment": sentiment_data.get('sentiment', '未知'),
+                    "signal": sentiment_data.get('signal', '⚪ 待接入')
+                },
+                "northbound": {
+                    "name": "北向资金",
+                    "status": "需专业数据源",
+                    "signal": "⚪ 接入Wind/iFinD"
+                },
+                "margin": {
+                    "name": "融资余额",
+                    "status": "需专业数据源", 
+                    "signal": "⚪ 接入Wind/iFinD"
+                }
             }
-            
-            # 新开户数
-            sentiment["new_accounts"] = {
-                "name": "新增投资者",
-                "status": "需要数据源",
-                "signal": "⚪ 待接入"
-            }
-            
-            # 换手率
-            sentiment["turnover"] = {
-                "name": "市场换手率",
-                "status": "需要数据源",
-                "signal": "⚪ 待接入"
-            }
-            
         except Exception as e:
-            pass
-            
-        return sentiment
+            return {
+                "index_sentiment": {
+                    "name": "A股情绪",
+                    "signal": "⚪ 数据获取失败"
+                },
+                "northbound": {"name": "北向资金", "signal": "⚪ 待接入"},
+                "margin": {"name": "融资余额", "signal": "⚪ 待接入"}
+            }
         
     def get_market_breadth(self) -> Optional[Dict]:
         """市场广度指标"""
@@ -351,8 +347,18 @@ class MarketSentimentMonitor:
         lines.append("\n🇨🇳 A股市场情绪")
         lines.append("-" * 40)
         a_share = self.get_a_share_sentiment()
+        
+        # 指数情绪
+        if "index_sentiment" in a_share:
+            idx = a_share["index_sentiment"]
+            emoji = "🟢" if idx.get('change_pct', 0) >= 0 else "🔴"
+            lines.append(f"  {idx['name']}: {emoji} {idx.get('sentiment', '未知')}")
+            lines.append(f"  信号: {idx['signal']}")
+            
+        # 其他指标
         for key, item in a_share.items():
-            lines.append(f"  {item['name']}: {item['signal']}")
+            if key != "index_sentiment":
+                lines.append(f"  {item['name']}: {item['signal']}")
             
         lines.append("\n" + "=" * 60)
         lines.append("💡 情绪指标使用说明:")

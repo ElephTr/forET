@@ -290,7 +290,14 @@ class MacroDataMonitor:
         spread = self.get_indicator("US_10Y_2Y_SPREAD")
         
         if not spread:
-            return {"status": "unknown", "message": "无法获取收益率曲线数据"}
+            return {
+                "status": "unknown", 
+                "message": "无法获取收益率曲线数据",
+                "spread": 0,
+                "change_pct": 0,
+                "signal": "⚪ 无数据",
+                "interpretation": "需要FRED API Key获取收益率曲线数据"
+            }
             
         status = "normal" if spread.value > 0 else "inverted"
         
@@ -328,44 +335,79 @@ def format_macro_report(monitor: MacroDataMonitor) -> str:
     lines.append("\n🏛️  收益率曲线与衰退风险")
     lines.append("-" * 40)
     yield_analysis = monitor.analyze_yield_curve()
-    lines.append(f"  10Y-2Y利差: {yield_analysis['spread']:.2f}% ({yield_analysis['change_pct']:+.2f}%)")
-    lines.append(f"  状态: {yield_analysis['signal']}")
-    lines.append(f"  解读: {yield_analysis['interpretation']}")
+    if monitor.fred_api_key and yield_analysis.get('status') != 'unknown':
+        lines.append(f"  10Y-2Y利差: {yield_analysis['spread']:.2f}% ({yield_analysis['change_pct']:+.2f}%)")
+        lines.append(f"  状态: {yield_analysis['signal']}")
+        lines.append(f"  解读: {yield_analysis['interpretation']}")
+    else:
+        lines.append("  ⚪ 需要 FRED API Key 获取收益率曲线数据")
+        lines.append("  💡 替代方案: 可通过 Yahoo Finance 获取美债收益率")
     
     # 关键利率
     lines.append("\n💰 关键利率水平")
     lines.append("-" * 40)
-    rates = monitor.get_key_rates_summary()
-    for rate_id, indicator in rates.items():
-        emoji = "🟢" if indicator.change_pct >= 0 else "🔴"
-        lines.append(f"  {emoji} {indicator.name:20} {indicator.value:>6.2f}% ({indicator.change_pct:>+.2f}%)")
+    if monitor.fred_api_key:
+        rates = monitor.get_key_rates_summary()
+        if rates:
+            for rate_id, indicator in rates.items():
+                emoji = "🟢" if indicator.change_pct >= 0 else "🔴"
+                lines.append(f"  {emoji} {indicator.name:20} {indicator.value:>6.2f}% ({indicator.change_pct:>+.2f}%)")
+        else:
+            lines.append("  ⚪ 数据获取失败")
+    else:
+        lines.append("  ⚪ 需要 FRED API Key")
+        lines.append("  📊 当前美联储基准利率: ~5.25-5.50% (可通过新闻确认)")
         
     # 通胀数据
     lines.append("\n📈 通胀指标")
     lines.append("-" * 40)
-    inflation = monitor.get_inflation_summary()
-    for inf_id, indicator in inflation.items():
-        emoji = "🔴" if indicator.value > 2.0 else "🟡" if indicator.value > 1.0 else "🟢"
-        lines.append(f"  {emoji} {indicator.name:20} {indicator.value:>6.2f}% ({indicator.change_pct:>+.2f}%)")
+    if monitor.fred_api_key:
+        inflation = monitor.get_inflation_summary()
+        if inflation:
+            for inf_id, indicator in inflation.items():
+                emoji = "🔴" if indicator.value > 2.0 else "🟡" if indicator.value > 1.0 else "🟢"
+                lines.append(f"  {emoji} {indicator.name:20} {indicator.value:>6.2f}% ({indicator.change_pct:>+.2f}%)")
+        else:
+            lines.append("  ⚪ 数据获取失败")
+    else:
+        lines.append("  ⚪ 需要 FRED API Key")
+        lines.append("  📊 当前美国CPI: ~3-4% (可通过新闻确认)")
+        lines.append("  💡 关注每月10-15日发布的CPI数据")
         
     # 流动性
     lines.append("\n💧 流动性状况")
     lines.append("-" * 40)
-    liquidity = monitor.get_liquidity_summary()
-    for liq_id, indicator in liquidity.items():
-        emoji = "🟢" if indicator.change_pct >= 0 else "🔴"
-        # 格式化大数字
-        if indicator.value > 1e9:
-            val_str = f"${indicator.value/1e9:.2f}T"
-        elif indicator.value > 1e6:
-            val_str = f"${indicator.value/1e6:.2f}B"
+    if monitor.fred_api_key:
+        liquidity = monitor.get_liquidity_summary()
+        if liquidity:
+            for liq_id, indicator in liquidity.items():
+                emoji = "🟢" if indicator.change_pct >= 0 else "🔴"
+                # 格式化大数字
+                if indicator.value > 1e9:
+                    val_str = f"${indicator.value/1e9:.2f}T"
+                elif indicator.value > 1e6:
+                    val_str = f"${indicator.value/1e6:.2f}B"
+                else:
+                    val_str = f"{indicator.value:.2f}"
+                lines.append(f"  {emoji} {indicator.name:20} {val_str:>10} ({indicator.change_pct:>+.2f}%)")
         else:
-            val_str = f"{indicator.value:.2f}"
-        lines.append(f"  {emoji} {indicator.name:20} {val_str:>10} ({indicator.change_pct:>+.2f}%)")
+            lines.append("  ⚪ 数据获取失败")
+    else:
+        lines.append("  ⚪ 需要 FRED API Key")
+        lines.append("  📊 美联储正在缩表，关注流动性变化")
     
     lines.append("\n" + "=" * 60)
-    lines.append("⚠️  数据来源: FRED (Federal Reserve Economic Data)")
-    lines.append("   需要FRED API Key才能获取完整数据")
+    lines.append("📚 宏观数据关注要点:")
+    lines.append("  • 美联储利率决议 (每月FOMC会议)")
+    lines.append("  • CPI/PCE通胀数据 (每月10-15日)")
+    lines.append("  • 非农就业数据 (每月第一个周五)")
+    lines.append("  • 美债收益率曲线 (衰退预测指标)")
+    
+    if not monitor.fred_api_key:
+        lines.append("\n💡 提示: 设置 FRED_API_KEY 环境变量获取自动数据更新")
+        lines.append("   获取: https://fred.stlouisfed.org/docs/api/api_key.html")
+    else:
+        lines.append("\n⚠️  数据来源: FRED (Federal Reserve Economic Data)")
     
     return "\n".join(lines)
 
