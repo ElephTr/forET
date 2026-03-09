@@ -148,12 +148,45 @@ export ALPHA_VANTAGE_KEY="your_key"       # 可选，备用数据源
 
 ## 扩展计划
 
+- [x] 上下文压缩系统 (v1.2.0)
 - [ ] A股资金流向 (北向资金、融资余额)
 - [ ] 个股基本面分析
 - [ ] 行业景气度跟踪
 - [ ] 新闻情绪 NLP 分析
 - [ ] 技术指标集成
 - [ ] 回测框架
+
+## 上下文优化 (v1.2.0)
+
+为降低 LLM 调用成本和延迟，实现了上下文管理系统：
+
+```bash
+# 查看统计
+./scripts/context_manager.py --stats
+
+# 列出历史会话
+./scripts/context_manager.py --list
+
+# 搜索相关记忆
+./scripts/context_manager.py --search "investment"
+```
+
+### 核心组件
+
+1. **context_compressor.py** - 会话内压缩
+   - 触发条件: >10轮对话 或 >4000 tokens
+   - 保留: 决策、结果、错误、偏好
+   - 丢弃: 中间尝试、重复信息
+
+2. **memory_manager.py** - 跨会话记忆
+   - 存储在 `memory/sessions/`
+   - 关键词检索相关历史
+   - Markdown 格式便于阅读
+
+3. **context_manager.py** - 统一入口
+   - 自动判断压缩策略
+   - 组合历史记忆 + 当前上下文
+   - 生成优化提示
 
 ## 免责声明
 

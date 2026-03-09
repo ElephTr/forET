@@ -1,24 +1,25 @@
 {
   "name": "investment-research",
-  "version": "1.0.0",
-  "description": "基于第一性原理的全球市场投资研究系统 - 多源数据聚合、宏观监控、情绪分析、投资决策支持",
+  "version": "1.2.0",
+  "description": "基于第一性原理的全球市场投资研究系统 - 多源数据聚合、宏观监控、情绪分析、投资决策支持、上下文优化",
   "author": "ET",
   "type": "skill",
   "entry": "SKILL.md",
-  "tags": ["investment", "finance", "research", "market-analysis", "macro", "sentiment"],
+  "tags": ["investment", "finance", "research", "market-analysis", "macro", "sentiment", "context-compression"],
   "capabilities": [
     "global-market-data",
     "macro-monitoring",
     "sentiment-analysis",
     "asset-allocation",
-    "investment-signals"
+    "investment-signals",
+    "context-optimization"
   ],
   "data_sources": [
     "Yahoo Finance",
     "Alpha Vantage",
     "FRED",
     "CoinGecko",
-    "东方财富"
+    "新浪财经"
   ],
   "markets_covered": [
     "US", "CN", "HK", "JP", "EU", "FX", "COMMODITIES", "CRYPTO"
