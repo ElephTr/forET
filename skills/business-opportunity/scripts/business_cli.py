@@ -58,19 +58,29 @@ def cmd_analyze(args):
     for key, value in analysis["feasibility"].items():
         print(f"  {key}: {value}")
 
+def cmd_enhanced(args):
+    """增强版分析（基于市场信号和个性化匹配）"""
+    from enhanced_analyzer import EnhancedOpportunityAnalyzer
+    analyzer = EnhancedOpportunityAnalyzer()
+    print(analyzer.generate_enhanced_report())
+
 def main():
     parser = argparse.ArgumentParser(
         description="商业机会分析工具",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
-  %(prog)s scan                    # 扫描所有机会
+  %(prog)s enhanced                # 增强版分析（推荐）
+  %(prog)s scan                    # 基础扫描
   %(prog)s scan --budget 低         # 只显示低资金门槛机会
   %(prog)s analyze "开咖啡店"       # 分析具体想法
         """
     )
     
     subparsers = parser.add_subparsers(dest="command", help="可用命令")
+    
+    # enhanced 命令（新增）
+    enhanced_parser = subparsers.add_parser("enhanced", help="增强版分析（基于市场信号）")
     
     # scan 命令
     scan_parser = subparsers.add_parser("scan", help="扫描商业机会")
@@ -84,10 +94,12 @@ def main():
     args = parser.parse_args()
     
     if not args.command:
-        parser.print_help()
-        sys.exit(1)
+        # 默认运行增强版
+        cmd_enhanced(args)
+        sys.exit(0)
     
     commands = {
+        "enhanced": cmd_enhanced,
         "scan": cmd_scan,
         "analyze": cmd_analyze,
     }
