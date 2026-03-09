@@ -70,6 +70,12 @@ def cmd_crossborder(args):
     analyzer = CrossBorderEcommerceAnalyzer()
     print(analyzer.generate_report())
 
+def cmd_demand(args):
+    """需求驱动型机会发现"""
+    from demand_driven_finder import DemandDrivenOpportunityFinder
+    finder = DemandDrivenOpportunityFinder()
+    print(finder.generate_report())
+
 def main():
     parser = argparse.ArgumentParser(
         description="商业机会分析工具",
@@ -88,8 +94,11 @@ def main():
     # enhanced 命令
     enhanced_parser = subparsers.add_parser("enhanced", help="增强版分析（基于市场信号）")
     
-    # crossborder 命令（新增）
+    # crossborder 命令
     crossborder_parser = subparsers.add_parser("crossborder", help="跨境电商深度分析")
+    
+    # demand 命令（新增）
+    demand_parser = subparsers.add_parser("demand", help="需求驱动型机会发现")
     
     # scan 命令
     scan_parser = subparsers.add_parser("scan", help="扫描商业机会")
@@ -110,6 +119,7 @@ def main():
     commands = {
         "enhanced": cmd_enhanced,
         "crossborder": cmd_crossborder,
+        "demand": cmd_demand,
         "scan": cmd_scan,
         "analyze": cmd_analyze,
     }
