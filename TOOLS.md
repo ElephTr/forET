@@ -37,4 +37,33 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Web Search Tool
+
+已安装并配置好网络搜索工具，使用 DuckDuckGo 搜索。
+
+### 使用方法
+
+```bash
+# 基本搜索
+python3 /root/.openclaw/workspace/tools/websearch.py "搜索关键词"
+
+# 指定结果数量
+python3 /root/.openclaw/workspace/tools/websearch.py "搜索关键词" 10
+
+# 搜索新闻
+python3 /root/.openclaw/workspace/tools/websearch.py "新闻关键词" 5 --news
+```
+
+### 示例
+
+```bash
+# 搜索上海活动
+python3 /root/.openclaw/workspace/tools/websearch.py "上海 周末活动" 5
+
+# 搜索新闻
+python3 /root/.openclaw/workspace/tools/websearch.py "AI 人工智能" 10 --news
+```
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.
