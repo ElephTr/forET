@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页 - AI 导航站</title>
+    <title>AI 音频与音乐 - AI 导航站</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
@@ -51,12 +51,23 @@
         
         
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="搜索 AI 工具..." onkeyup="searchSites()">
+            <input type="text" id="searchInput" placeholder="搜索 AI 音频与音乐..." onkeyup="searchSites()">
         </div>
         <div class="category">
-            <h2><span class="category-icon">📂</span>全部分类</h2>
+            <h2><span class="category-icon">🎵</span>AI 音频与音乐</h2>
             <div class="sites-grid">
-                <a href="pages/llm.html" class="site-card"><div class="site-name">💬 大语言模型</div><div class="site-desc">18 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/image.html" class="site-card"><div class="site-name">🎨 AI 图像生成</div><div class="site-desc">14 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/video.html" class="site-card"><div class="site-name">🎬 AI 视频生成</div><div class="site-desc">12 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/coding.html" class="site-card"><div class="site-name">💻 AI 编程助手</div><div class="site-desc">14 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/audio.html" class="site-card"><div class="site-name">🎵 AI 音频与音乐</div><div class="site-desc">12 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/search.html" class="site-card"><div class="site-name">🔍 AI 搜索引擎</div><div class="site-desc">8 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/writing.html" class="site-card"><div class="site-name">✍️ AI 写作助手</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/ppt.html" class="site-card"><div class="site-name">📊 AI PPT/演示</div><div class="site-desc">7 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/design.html" class="site-card"><div class="site-name">🎮 AI 3D/设计</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/agent.html" class="site-card"><div class="site-name">🤖 AI 智能体/自动化</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/education.html" class="site-card"><div class="site-name">📚 AI 学习/教育</div><div class="site-desc">6 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/business.html" class="site-card"><div class="site-name">💼 AI 商业/办公</div><div class="site-desc">9 个工具</div><div class="site-url">点击查看全部 →</div></a>
+                <a href="https://elevenlabs.io" class="site-card" target="_blank"><div class="site-name">ElevenLabs</div><div class="site-desc">最逼真的 AI 语音合成平台</div><div class="site-url">elevenlabs.io</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://suno.ai" class="site-card" target="_blank"><div class="site-name">Suno</div><div class="site-desc">AI 音乐生成工具，可生成完整歌曲</div><div class="site-url">suno.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://udio.com" class="site-card" target="_blank"><div class="site-name">Udio</div><div class="site-desc">AI 音乐生成，音质出色</div><div class="site-url">udio.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://aiva.ai" class="site-card" target="_blank"><div class="site-name">AIVA</div><div class="site-desc">AI 作曲工具，适合影视配乐</div><div class="site-url">aiva.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://descript.com" class="site-card" target="_blank"><div class="site-name">Descript</div><div class="site-desc">AI 音视频编辑，支持语音克隆</div><div class="site-url">descript.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://murf.ai" class="site-card" target="_blank"><div class="site-name">Murf AI</div><div class="site-desc">AI 语音生成和配音工具</div><div class="site-url">murf.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://play.ht" class="site-card" target="_blank"><div class="site-name">Play.ht</div><div class="site-desc">AI 语音生成和文本转语音</div><div class="site-url">play.ht</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://voicemod.net" class="site-card" target="_blank"><div class="site-name">Voicemod</div><div class="site-desc">AI 实时变声和语音合成</div><div class="site-url">voicemod.net</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://speechify.com" class="site-card" target="_blank"><div class="site-name">Speechify</div><div class="site-desc">AI 文本转语音阅读器</div><div class="site-url">speechify.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://naturalreaders.com" class="site-card" target="_blank"><div class="site-name">Natural Reader</div><div class="site-desc">自然语音文本转语音</div><div class="site-url">naturalreaders.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://resemble.ai" class="site-card" target="_blank"><div class="site-name">Resemble AI</div><div class="site-desc">AI 语音克隆和生成</div><div class="site-url">resemble.ai</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://wellsaidlabs.com" class="site-card" target="_blank"><div class="site-name">WellSaid</div><div class="site-desc">企业级 AI 语音合成</div><div class="site-url">wellsaidlabs.com</div><span class="tag tag-paid">付费</span></a>
             </div>
         </div>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页 - AI 导航站</title>
+    <title>AI 视频生成 - AI 导航站</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
@@ -51,12 +51,23 @@
         
         
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="搜索 AI 工具..." onkeyup="searchSites()">
+            <input type="text" id="searchInput" placeholder="搜索 AI 视频生成..." onkeyup="searchSites()">
         </div>
         <div class="category">
-            <h2><span class="category-icon">📂</span>全部分类</h2>
+            <h2><span class="category-icon">🎬</span>AI 视频生成</h2>
             <div class="sites-grid">
-                <a href="pages/llm.html" class="site-card"><div class="site-name">💬 大语言模型</div><div class="site-desc">18 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/image.html" class="site-card"><div class="site-name">🎨 AI 图像生成</div><div class="site-desc">14 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/video.html" class="site-card"><div class="site-name">🎬 AI 视频生成</div><div class="site-desc">12 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/coding.html" class="site-card"><div class="site-name">💻 AI 编程助手</div><div class="site-desc">14 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/audio.html" class="site-card"><div class="site-name">🎵 AI 音频与音乐</div><div class="site-desc">12 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/search.html" class="site-card"><div class="site-name">🔍 AI 搜索引擎</div><div class="site-desc">8 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/writing.html" class="site-card"><div class="site-name">✍️ AI 写作助手</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/ppt.html" class="site-card"><div class="site-name">📊 AI PPT/演示</div><div class="site-desc">7 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/design.html" class="site-card"><div class="site-name">🎮 AI 3D/设计</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/agent.html" class="site-card"><div class="site-name">🤖 AI 智能体/自动化</div><div class="site-desc">10 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/education.html" class="site-card"><div class="site-name">📚 AI 学习/教育</div><div class="site-desc">6 个工具</div><div class="site-url">点击查看全部 →</div></a><a href="pages/business.html" class="site-card"><div class="site-name">💼 AI 商业/办公</div><div class="site-desc">9 个工具</div><div class="site-url">点击查看全部 →</div></a>
+                <a href="https://openai.com/sora" class="site-card" target="_blank"><div class="site-name">Sora</div><div class="site-desc">OpenAI 的文本生成视频模型</div><div class="site-url">openai.com/sora</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://runwayml.com" class="site-card" target="_blank"><div class="site-name">Runway</div><div class="site-desc">AI 视频编辑和生成平台</div><div class="site-url">runwayml.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://klingai.com" class="site-card" target="_blank"><div class="site-name">可灵 AI</div><div class="site-desc">快手开发的 AI 视频生成工具</div><div class="site-url">klingai.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://pika.art" class="site-card" target="_blank"><div class="site-name">Pika</div><div class="site-desc">AI 视频生成和编辑平台</div><div class="site-url">pika.art</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://heygen.com" class="site-card" target="_blank"><div class="site-name">HeyGen</div><div class="site-desc">AI 数字人视频生成</div><div class="site-url">heygen.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://synthesia.io" class="site-card" target="_blank"><div class="site-name">Synthesia</div><div class="site-desc">AI 数字人视频制作平台</div><div class="site-url">synthesia.io</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://d-id.com" class="site-card" target="_blank"><div class="site-name">D-ID</div><div class="site-desc">照片转 AI 视频工具</div><div class="site-url">d-id.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://capcut.com" class="site-card" target="_blank"><div class="site-name">剪映/CapCut</div><div class="site-desc">字节跳动的 AI 视频编辑工具</div><div class="site-url">capcut.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://stablevideo.com" class="site-card" target="_blank"><div class="site-name">Stable Video</div><div class="site-desc">Stability AI 的视频生成工具</div><div class="site-url">stablevideo.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://luma.ai" class="site-card" target="_blank"><div class="site-name">Luma AI</div><div class="site-desc">3D 和神经网络视频生成</div><div class="site-url">luma.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://pixverse.ai" class="site-card" target="_blank"><div class="site-name">PixVerse</div><div class="site-desc">AI 视频生成平台</div><div class="site-url">pixverse.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://vivago.ai" class="site-card" target="_blank"><div class="site-name">VivaGo</div><div class="site-desc">AI 视频生成和编辑</div><div class="site-url">vivago.ai</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
