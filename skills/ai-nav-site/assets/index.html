@@ -5,148 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 导航站 - 人工智能工具大全</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-        }
-        
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            outline: none;
-        }
-        
-        .category {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        
-        .category h2 {
-            color: #333;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .category-icon {
-            font-size: 1.8rem;
-        }
-        
-        .sites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .site-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-        }
-        
-        .site-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-color: #667eea;
-        }
-        
-        .site-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .site-desc {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        .site-url {
-            font-size: 0.8rem;
-            color: #667eea;
-            margin-top: 10px;
-            word-break: break-all;
-        }
-        
-        .tag {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            margin-top: 10px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: white;
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .sites-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; padding: 40px 20px; color: white; }
+        header h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 20px; flex-wrap: wrap; }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: bold; }
+        .stat-label { font-size: 0.9rem; opacity: 0.8; }
+        .search-box { max-width: 600px; margin: 0 auto 40px; }
+        .search-box input { width: 100%; padding: 15px 25px; border: none; border-radius: 50px; font-size: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); outline: none; }
+        .category { background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .category h2 { color: #333; font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #667eea; display: flex; align-items: center; gap: 10px; }
+        .category-icon { font-size: 1.8rem; }
+        .sites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .site-card { background: #f8f9fa; border-radius: 12px; padding: 20px; transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer; text-decoration: none; display: block; }
+        .site-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-color: #667eea; }
+        .site-name { font-size: 1.1rem; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .site-desc { font-size: 0.9rem; color: #666; line-height: 1.5; }
+        .site-url { font-size: 0.8rem; color: #667eea; margin-top: 10px; word-break: break-all; }
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 0.75rem; margin-top: 10px; }
+        .tag-free { background: #28a745; color: white; }
+        .tag-paid { background: #dc3545; color: white; }
+        .tag-freemium { background: #ffc107; color: #333; }
+        .tag-open { background: #6f42c1; color: white; }
+        footer { text-align: center; padding: 40px; color: white; opacity: 0.8; }
+        @media (max-width: 768px) { header h1 { font-size: 2rem; } .sites-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -154,176 +40,221 @@
         <header>
             <h1>🤖 AI 导航站</h1>
             <p>人工智能工具大全 - 探索 AI 的无限可能</p>
+            <div class="stats">
+                <div class="stat-item"><div class="stat-number">150+</div><div class="stat-label">AI 工具</div></div>
+                <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">分类</div></div>
+                <div class="stat-item"><div class="stat-number">每日</div><div class="stat-label">更新</div></div>
+            </div>
         </header>
         
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="搜索 AI 工具..." onkeyup="searchSites()">
         </div>
 
-        <!-- 大语言模型 -->
         <div class="category">
             <h2><span class="category-icon">💬</span>大语言模型 (LLM)</h2>
             <div class="sites-grid">
-                <a href="https://chat.openai.com" class="site-card" target="_blank">
-                    <div class="site-name">ChatGPT</div>
-                    <div class="site-desc">OpenAI 开发的对话式 AI，最强大的通用 AI 助手</div>
-                    <div class="site-url">chat.openai.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://claude.ai" class="site-card" target="_blank">
-                    <div class="site-name">Claude</div>
-                    <div class="site-desc">Anthropic 开发的 AI 助手，擅长长文本分析和代码</div>
-                    <div class="site-url">claude.ai</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://gemini.google.com" class="site-card" target="_blank">
-                    <div class="site-name">Google Gemini</div>
-                    <div class="site-desc">Google 的多模态 AI 模型，集成搜索能力</div>
-                    <div class="site-url">gemini.google.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://kimi.moonshot.cn" class="site-card" target="_blank">
-                    <div class="site-name">Kimi</div>
-                    <div class="site-desc">月之暗面开发的国产大模型，支持超长上下文</div>
-                    <div class="site-url">kimi.moonshot.cn</div>
-                    <span class="tag">免费</span>
-                </a>
-                <a href="https://tongyi.aliyun.com" class="site-card" target="_blank">
-                    <div class="site-name">通义千问</div>
-                    <div class="site-desc">阿里云开发的国产大语言模型</div>
-                    <div class="site-url">tongyi.aliyun.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://www.doubao.com" class="site-card" target="_blank">
-                    <div class="site-name">豆包</div>
-                    <div class="site-desc">字节跳动开发的 AI 助手</div>
-                    <div class="site-url">doubao.com</div>
-                    <span class="tag">免费</span>
-                </a>
+                <a href="https://chat.openai.com" class="site-card" target="_blank"><div class="site-name">ChatGPT</div><div class="site-desc">OpenAI 开发的对话式 AI，最强大的通用 AI 助手</div><div class="site-url">chat.openai.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://claude.ai" class="site-card" target="_blank"><div class="site-name">Claude</div><div class="site-desc">Anthropic 开发的 AI 助手，擅长长文本分析和代码</div><div class="site-url">claude.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://gemini.google.com" class="site-card" target="_blank"><div class="site-name">Google Gemini</div><div class="site-desc">Google 的多模态 AI 模型，集成搜索能力</div><div class="site-url">gemini.google.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://kimi.moonshot.cn" class="site-card" target="_blank"><div class="site-name">Kimi</div><div class="site-desc">月之暗面开发的国产大模型，支持超长上下文</div><div class="site-url">kimi.moonshot.cn</div><span class="tag tag-free">免费</span></a>
+                <a href="https://tongyi.aliyun.com" class="site-card" target="_blank"><div class="site-name">通义千问</div><div class="site-desc">阿里云开发的国产大语言模型</div><div class="site-url">tongyi.aliyun.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://doubao.com" class="site-card" target="_blank"><div class="site-name">豆包</div><div class="site-desc">字节跳动开发的 AI 助手</div><div class="site-url">doubao.com</div><span class="tag tag-free">免费</span></a>
+                <a href="https://chatglm.cn" class="site-card" target="_blank"><div class="site-name">智谱清言</div><div class="site-desc">清华大学开发的 ChatGLM 模型</div><div class="site-url">chatglm.cn</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://yiyan.baidu.com" class="site-card" target="_blank"><div class="site-name">文心一言</div><div class="site-desc">百度开发的国产大语言模型</div><div class="site-url">yiyan.baidu.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://xinghuo.xfyun.cn" class="site-card" target="_blank"><div class="site-name">讯飞星火</div><div class="site-desc">科大讯飞开发的 AI 大模型</div><div class="site-url">xinghuo.xfyun.cn</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://hailuoai.video" class="site-card" target="_blank"><div class="site-name">海螺 AI</div><div class="site-desc">MiniMax 开发的 AI 助手</div><div class="site-url">hailuoai.video</div><span class="tag tag-free">免费</span></a>
+                <a href="https://poe.com" class="site-card" target="_blank"><div class="site-name">Poe</div><div class="site-desc">Quora 开发的 AI 聚合平台，集成多个模型</div><div class="site-url">poe.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://mistral.ai" class="site-card" target="_blank"><div class="site-name">Mistral</div><div class="site-desc">法国 Mistral AI 开发的开源大模型</div><div class="site-url">mistral.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://cohere.com" class="site-card" target="_blank"><div class="site-name">Cohere</div><div class="site-desc">企业级大语言模型平台</div><div class="site-url">cohere.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://groq.com" class="site-card" target="_blank"><div class="site-name">Groq</div><div class="site-desc">超高速 AI 推理平台</div><div class="site-url">groq.com</div><span class="tag tag-free">免费</span></a>
+                <a href="https://meta.ai" class="site-card" target="_blank"><div class="site-name">Meta AI</div><div class="site-desc">Meta 开发的 Llama 模型聊天界面</div><div class="site-url">meta.ai</div><span class="tag tag-free">免费</span></a>
+                <a href="https://huggingface.co/chat" class="site-card" target="_blank"><div class="site-name">HuggingChat</div><div class="site-desc">Hugging Face 的免费开源 AI 聊天</div><div class="site-url">huggingface.co/chat</div><span class="tag tag-free">免费</span></a>
+                <a href="https://pi.ai" class="site-card" target="_blank"><div class="site-name">Pi</div><div class="site-desc">Inflection AI 开发的个人 AI 助手</div><div class="site-url">pi.ai</div><span class="tag tag-free">免费</span></a>
+                <a href="https://character.ai" class="site-card" target="_blank"><div class="site-name">Character.AI</div><div class="site-desc">与各种 AI 角色对话的平台</div><div class="site-url">character.ai</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
-        <!-- AI 图像生成 -->
         <div class="category">
             <h2><span class="category-icon">🎨</span>AI 图像生成</h2>
             <div class="sites-grid">
-                <a href="https://www.midjourney.com" class="site-card" target="_blank">
-                    <div class="site-name">Midjourney</div>
-                    <div class="site-desc">最知名的 AI 图像生成工具，艺术风格出色</div>
-                    <div class="site-url">midjourney.com</div>
-                    <span class="tag">付费</span>
-                </a>
-                <a href="https://openai.com/dall-e-3" class="site-card" target="_blank">
-                    <div class="site-name">DALL·E 3</div>
-                    <div class="site-desc">OpenAI 的图像生成模型</div>
-                    <div class="site-url">openai.com/dall-e-3</div>
-                    <span class="tag">付费</span>
-                </a>
-                <a href="https://stability.ai" class="site-card" target="_blank">
-                    <div class="site-name">Stable Diffusion</div>
-                    <div class="site-desc">开源图像生成模型，可本地部署</div>
-                    <div class="site-url">stability.ai</div>
-                    <span class="tag">开源/付费</span>
-                </a>
-                <a href="https://www.bing.com/create" class="site-card" target="_blank">
-                    <div class="site-name">Bing Image Creator</div>
-                    <div class="site-desc">微软的免费 AI 图像生成工具</div>
-                    <div class="site-url">bing.com/create</div>
-                    <span class="tag">免费</span>
-                </a>
+                <a href="https://midjourney.com" class="site-card" target="_blank"><div class="site-name">Midjourney</div><div class="site-desc">最知名的 AI 图像生成工具，艺术风格出色</div><div class="site-url">midjourney.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://openai.com/dall-e-3" class="site-card" target="_blank"><div class="site-name">DALL·E 3</div><div class="site-desc">OpenAI 的图像生成模型</div><div class="site-url">openai.com/dall-e-3</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://stability.ai" class="site-card" target="_blank"><div class="site-name">Stable Diffusion</div><div class="site-desc">开源图像生成模型，可本地部署</div><div class="site-url">stability.ai</div><span class="tag tag-open">开源</span></a>
+                <a href="https://bing.com/create" class="site-card" target="_blank"><div class="site-name">Bing Image Creator</div><div class="site-desc">微软的免费 AI 图像生成工具</div><div class="site-url">bing.com/create</div><span class="tag tag-free">免费</span></a>
+                <a href="https://adobe.com/firefly" class="site-card" target="_blank"><div class="site-name">Adobe Firefly</div><div class="site-desc">Adobe 的 AI 图像生成工具</div><div class="site-url">adobe.com/firefly</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://leonardo.ai" class="site-card" target="_blank"><div class="site-name">Leonardo.ai</div><div class="site-desc">游戏资产和创意图像生成</div><div class="site-url">leonardo.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://ideogram.ai" class="site-card" target="_blank"><div class="site-name">Ideogram</div><div class="site-desc">擅长生成带文字的图像</div><div class="site-url">ideogram.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://clipdrop.co" class="site-card" target="_blank"><div class="site-name">Clipdrop</div><div class="site-desc">Stability AI 的图像编辑套件</div><div class="site-url">clipdrop.co</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://playgroundai.com" class="site-card" target="_blank"><div class="site-name">Playground AI</div><div class="site-desc">免费 AI 图像生成和编辑</div><div class="site-url">playgroundai.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://canva.com" class="site-card" target="_blank"><div class="site-name">Canva AI</div><div class="site-desc">Canva 的 AI 图像生成工具</div><div class="site-url">canva.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://recraft.ai" class="site-card" target="_blank"><div class="site-name">Recraft</div><div class="site-desc">矢量图和插画生成工具</div><div class="site-url">recraft.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://tensor.art" class="site-card" target="_blank"><div class="site-name">Tensor.Art</div><div class="site-desc">在线 Stable Diffusion 模型平台</div><div class="site-url">tensor.art</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://liblib.art" class="site-card" target="_blank"><div class="site-name">LiblibAI</div><div class="site-desc">国内知名的 AI 绘画平台</div><div class="site-url">liblib.art</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://6pen.art" class="site-card" target="_blank"><div class="site-name">6pen Art</div><div class="site-desc">中文 AI 艺术创作平台</div><div class="site-url">6pen.art</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
-        <!-- AI 视频生成 -->
         <div class="category">
             <h2><span class="category-icon">🎬</span>AI 视频生成</h2>
             <div class="sites-grid">
-                <a href="https://openai.com/sora" class="site-card" target="_blank">
-                    <div class="site-name">Sora</div>
-                    <div class="site-desc">OpenAI 的文本生成视频模型</div>
-                    <div class="site-url">openai.com/sora</div>
-                    <span class="tag">付费</span>
-                </a>
-                <a href="https://runwayml.com" class="site-card" target="_blank">
-                    <div class="site-name">Runway</div>
-                    <div class="site-desc">AI 视频编辑和生成平台</div>
-                    <div class="site-url">runwayml.com</div>
-                    <span class="tag">付费</span>
-                </a>
-                <a href="https://klingai.com" class="site-card" target="_blank">
-                    <div class="site-name">可灵 AI</div>
-                    <div class="site-desc">快手开发的 AI 视频生成工具</div>
-                    <div class="site-url">klingai.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
+                <a href="https://openai.com/sora" class="site-card" target="_blank"><div class="site-name">Sora</div><div class="site-desc">OpenAI 的文本生成视频模型</div><div class="site-url">openai.com/sora</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://runwayml.com" class="site-card" target="_blank"><div class="site-name">Runway</div><div class="site-desc">AI 视频编辑和生成平台</div><div class="site-url">runwayml.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://klingai.com" class="site-card" target="_blank"><div class="site-name">可灵 AI</div><div class="site-desc">快手开发的 AI 视频生成工具</div><div class="site-url">klingai.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://pika.art" class="site-card" target="_blank"><div class="site-name">Pika</div><div class="site-desc">AI 视频生成和编辑平台</div><div class="site-url">pika.art</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://heygen.com" class="site-card" target="_blank"><div class="site-name">HeyGen</div><div class="site-desc">AI 数字人视频生成</div><div class="site-url">heygen.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://synthesia.io" class="site-card" target="_blank"><div class="site-name">Synthesia</div><div class="site-desc">AI 数字人视频制作平台</div><div class="site-url">synthesia.io</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://d-id.com" class="site-card" target="_blank"><div class="site-name">D-ID</div><div class="site-desc">照片转 AI 视频工具</div><div class="site-url">d-id.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://capcut.com" class="site-card" target="_blank"><div class="site-name">剪映/CapCut</div><div class="site-desc">字节跳动的 AI 视频编辑工具</div><div class="site-url">capcut.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://stablevideo.com" class="site-card" target="_blank"><div class="site-name">Stable Video</div><div class="site-desc">Stability AI 的视频生成工具</div><div class="site-url">stablevideo.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://luma.ai" class="site-card" target="_blank"><div class="site-name">Luma AI</div><div class="site-desc">3D 和神经网络视频生成</div><div class="site-url">luma.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://pixverse.ai" class="site-card" target="_blank"><div class="site-name">PixVerse</div><div class="site-desc">AI 视频生成平台</div><div class="site-url">pixverse.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://vivago.ai" class="site-card" target="_blank"><div class="site-name">VivaGo</div><div class="site-desc">AI 视频生成和编辑</div><div class="site-url">vivago.ai</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
-        <!-- AI 编程助手 -->
         <div class="category">
             <h2><span class="category-icon">💻</span>AI 编程助手</h2>
             <div class="sites-grid">
-                <a href="https://github.com/features/copilot" class="site-card" target="_blank">
-                    <div class="site-name">GitHub Copilot</div>
-                    <div class="site-desc">GitHub 和 OpenAI 合作的 AI 编程助手</div>
-                    <div class="site-url">github.com/features/copilot</div>
-                    <span class="tag">付费</span>
-                </a>
-                <a href="https://www.cursor.com" class="site-card" target="_blank">
-                    <div class="site-name">Cursor</div>
-                    <div class="site-desc">AI 原生的代码编辑器，基于 VS Code</div>
-                    <div class="site-url">cursor.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://codeium.com" class="site-card" target="_blank">
-                    <div class="site-name">Codeium</div>
-                    <div class="site-desc">免费的 AI 编程助手</div>
-                    <div class="site-url">codeium.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
+                <a href="https://github.com/features/copilot" class="site-card" target="_blank"><div class="site-name">GitHub Copilot</div><div class="site-desc">GitHub 和 OpenAI 合作的 AI 编程助手</div><div class="site-url">github.com/features/copilot</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://cursor.com" class="site-card" target="_blank"><div class="site-name">Cursor</div><div class="site-desc">AI 原生的代码编辑器，基于 VS Code</div><div class="site-url">cursor.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://codeium.com" class="site-card" target="_blank"><div class="site-name">Codeium</div><div class="site-desc">免费的 AI 编程助手</div><div class="site-url">codeium.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://tabnine.com" class="site-card" target="_blank"><div class="site-name">Tabnine</div><div class="site-desc">AI 代码补全工具</div><div class="site-url">tabnine.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://replit.com" class="site-card" target="_blank"><div class="site-name">Replit</div><div class="site-desc">在线编程环境，集成 AI 助手</div><div class="site-url">replit.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://phind.com" class="site-card" target="_blank"><div class="site-name">Phind</div><div class="site-desc">专为开发者设计的 AI 搜索引擎</div><div class="site-url">phind.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://v0.dev" class="site-card" target="_blank"><div class="site-name">v0</div><div class="site-desc">Vercel 的 AI 生成 UI 组件工具</div><div class="site-url">v0.dev</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://bolt.new" class="site-card" target="_blank"><div class="site-name">Bolt.new</div><div class="site-desc">AI 生成完整 Web 应用</div><div class="site-url">bolt.new</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://lovable.dev" class="site-card" target="_blank"><div class="site-name">Lovable</div><div class="site-desc">AI 全栈工程师，生成完整应用</div><div class="site-url">lovable.dev</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://continue.dev" class="site-card" target="_blank"><div class="site-name">Continue</div><div class="site-desc">开源 AI 编程助手 VS Code 插件</div><div class="site-url">continue.dev</div><span class="tag tag-open">开源</span></a>
+                <a href="https://aider.chat" class="site-card" target="_blank"><div class="site-name">Aider</div><div class="site-desc">AI 结对编程助手，支持多文件编辑</div><div class="site-url">aider.chat</div><span class="tag tag-open">开源</span></a>
+                <a href="https://warp.dev" class="site-card" target="_blank"><div class="site-name">Warp</div><div class="site-desc">AI 驱动的现代终端</div><div class="site-url">warp.dev</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://sourcegraph.com/cody" class="site-card" target="_blank"><div class="site-name">Cody</div><div class="site-desc">Sourcegraph 的 AI 编程助手</div><div class="site-url">sourcegraph.com/cody</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://augmentcode.com" class="site-card" target="_blank"><div class="site-name">Augment Code</div><div class="site-desc">企业级 AI 编程助手</div><div class="site-url">augmentcode.com</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
-        <!-- AI 音频/音乐 -->
         <div class="category">
             <h2><span class="category-icon">🎵</span>AI 音频与音乐</h2>
             <div class="sites-grid">
-                <a href="https://elevenlabs.io" class="site-card" target="_blank">
-                    <div class="site-name">ElevenLabs</div>
-                    <div class="site-desc">最逼真的 AI 语音合成平台</div>
-                    <div class="site-url">elevenlabs.io</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://suno.ai" class="site-card" target="_blank">
-                    <div class="site-name">Suno</div>
-                    <div class="site-desc">AI 音乐生成工具，可生成完整歌曲</div>
-                    <div class="site-url">suno.ai</div>
-                    <span class="tag">免费/付费</span>
-                </a>
+                <a href="https://elevenlabs.io" class="site-card" target="_blank"><div class="site-name">ElevenLabs</div><div class="site-desc">最逼真的 AI 语音合成平台</div><div class="site-url">elevenlabs.io</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://suno.ai" class="site-card" target="_blank"><div class="site-name">Suno</div><div class="site-desc">AI 音乐生成工具，可生成完整歌曲</div><div class="site-url">suno.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://udio.com" class="site-card" target="_blank"><div class="site-name">Udio</div><div class="site-desc">AI 音乐生成，音质出色</div><div class="site-url">udio.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://aiva.ai" class="site-card" target="_blank"><div class="site-name">AIVA</div><div class="site-desc">AI 作曲工具，适合影视配乐</div><div class="site-url">aiva.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://descript.com" class="site-card" target="_blank"><div class="site-name">Descript</div><div class="site-desc">AI 音视频编辑，支持语音克隆</div><div class="site-url">descript.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://murf.ai" class="site-card" target="_blank"><div class="site-name">Murf AI</div><div class="site-desc">AI 语音生成和配音工具</div><div class="site-url">murf.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://play.ht" class="site-card" target="_blank"><div class="site-name">Play.ht</div><div class="site-desc">AI 语音生成和文本转语音</div><div class="site-url">play.ht</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://voicemod.net" class="site-card" target="_blank"><div class="site-name">Voicemod</div><div class="site-desc">AI 实时变声和语音合成</div><div class="site-url">voicemod.net</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://speechify.com" class="site-card" target="_blank"><div class="site-name">Speechify</div><div class="site-desc">AI 文本转语音阅读器</div><div class="site-url">speechify.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://naturalreaders.com" class="site-card" target="_blank"><div class="site-name">Natural Reader</div><div class="site-desc">自然语音文本转语音</div><div class="site-url">naturalreaders.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://resemble.ai" class="site-card" target="_blank"><div class="site-name">Resemble AI</div><div class="site-desc">AI 语音克隆和生成</div><div class="site-url">resemble.ai</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://wellsaidlabs.com" class="site-card" target="_blank"><div class="site-name">WellSaid</div><div class="site-desc">企业级 AI 语音合成</div><div class="site-url">wellsaidlabs.com</div><span class="tag tag-paid">付费</span></a>
             </div>
         </div>
 
-        <!-- AI 搜索 -->
         <div class="category">
             <h2><span class="category-icon">🔍</span>AI 搜索引擎</h2>
             <div class="sites-grid">
-                <a href="https://www.perplexity.ai" class="site-card" target="_blank">
-                    <div class="site-name">Perplexity</div>
-                    <div class="site-desc">AI 搜索引擎，提供带引用的答案</div>
-                    <div class="site-url">perplexity.ai</div>
-                    <span class="tag">免费/付费</span>
-                </a>
-                <a href="https://you.com" class="site-card" target="_blank">
-                    <div class="site-name">You.com</div>
-                    <div class="site-desc">AI 搜索引擎，注重隐私</div>
-                    <div class="site-url">you.com</div>
-                    <span class="tag">免费/付费</span>
-                </a>
+                <a href="https://perplexity.ai" class="site-card" target="_blank"><div class="site-name">Perplexity</div><div class="site-desc">AI 搜索引擎，提供带引用的答案</div><div class="site-url">perplexity.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://you.com" class="site-card" target="_blank"><div class="site-name">You.com</div><div class="site-desc">AI 搜索引擎，注重隐私</div><div class="site-url">you.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://search.brave.com" class="site-card" target="_blank"><div class="site-name">Brave Search</div><div class="site-desc">Brave 浏览器的 AI 搜索引擎</div><div class="site-url">search.brave.com</div><span class="tag tag-free">免费</span></a>
+                <a href="https://phind.com" class="site-card" target="_blank"><div class="site-name">Phind</div><div class="site-desc">专为开发者设计的 AI 搜索</div><div class="site-url">phind.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://bing.com/chat" class="site-card" target="_blank"><div class="site-name">Bing Copilot</div><div class="site-desc">微软 Bing 的 AI 搜索助手</div><div class="site-url">bing.com/chat</div><span class="tag tag-free">免费</span></a>
+                <a href="https://komo.ai" class="site-card" target="_blank"><div class="site-name">Komo</div><div class="site-desc">AI 搜索引擎</div><div class="site-url">komo.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://waldo.fyi" class="site-card" target="_blank"><div class="site-name">Waldo</div><div class="site-desc">AI 驱动的搜索工具</div><div class="site-url">waldo.fyi</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://exa.ai" class="site-card" target="_blank"><div class="site-name">Exa</div><div class="site-desc">AI 语义搜索引擎</div><div class="site-url">exa.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">✍️</span>AI 写作助手</h2>
+            <div class="sites-grid">
+                <a href="https://notion.so" class="site-card" target="_blank"><div class="site-name">Notion AI</div><div class="site-desc">Notion 的 AI 写作助手</div><div class="site-url">notion.so</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://jasper.ai" class="site-card" target="_blank"><div class="site-name">Jasper</div><div class="site-desc">企业级 AI 写作工具</div><div class="site-url">jasper.ai</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://copy.ai" class="site-card" target="_blank"><div class="site-name">Copy.ai</div><div class="site-desc">营销文案 AI 写作工具</div><div class="site-url">copy.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://writesonic.com" class="site-card" target="_blank"><div class="site-name">Writesonic</div><div class="site-desc">AI 内容创作平台</div><div class="site-url">writesonic.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://rytr.me" class="site-card" target="_blank"><div class="site-name">Rytr</div><div class="site-desc">AI 写作助手</div><div class="site-url">rytr.me</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://wordtune.com" class="site-card" target="_blank"><div class="site-name">Wordtune</div><div class="site-desc">AI 写作优化工具</div><div class="site-url">wordtune.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://grammarly.com" class="site-card" target="_blank"><div class="site-name">Grammarly</div><div class="site-desc">AI 语法检查和写作助手</div><div class="site-url">grammarly.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://quillbot.com" class="site-card" target="_blank"><div class="site-name">QuillBot</div><div class="site-desc">AI 改写和润色工具</div><div class="site-url">quillbot.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://xiezuocat.com" class="site-card" target="_blank"><div class="site-name">秘塔写作猫</div><div class="site-desc">中文 AI 写作助手</div><div class="site-url">xiezuocat.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://yizhuan5.com" class="site-card" target="_blank"><div class="site-name">易撰</div><div class="site-desc">自媒体 AI 写作工具</div><div class="site-url">yizhuan5.com</div><span class="tag tag-freemium">免费/付费</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">📊</span>AI PPT/演示</h2>
+            <div class="sites-grid">
+                <a href="https://gamma.app" class="site-card" target="_blank"><div class="site-name">Gamma</div><div class="site-desc">AI 生成演示文稿</div><div class="site-url">gamma.app</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://beautiful.ai" class="site-card" target="_blank"><div class="site-name">Beautiful.ai</div><div class="site-desc">AI 驱动的演示文稿工具</div><div class="site-url">beautiful.ai</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://tome.app" class="site-card" target="_blank"><div class="site-name">Tome</div><div class="site-desc">AI 生成故事和演示</div><div class="site-url">tome.app</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://slidesai.io" class="site-card" target="_blank"><div class="site-name">SlidesAI</div><div class="site-desc">Google Slides 的 AI 插件</div><div class="site-url">slidesai.io</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://presentations.ai" class="site-card" target="_blank"><div class="site-name">Presentations.AI</div><div class="site-desc">AI 生成 PPT</div><div class="site-url">presentations.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://designkit.com/ppt" class="site-card" target="_blank"><div class="site-name">美图 AI PPT</div><div class="site-desc">美图旗下的 AI PPT 工具</div><div class="site-url">designkit.com/ppt</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://islide.cc" class="site-card" target="_blank"><div class="site-name">iSlide</div><div class="site-desc">PPT 设计 AI 助手</div><div class="site-url">islide.cc</div><span class="tag tag-freemium">免费/付费</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">🎮</span>AI 3D/设计</h2>
+            <div class="sites-grid">
+                <a href="https://spline.design" class="site-card" target="_blank"><div class="site-name">Spline</div><div class="site-desc">AI 3D 设计工具</div><div class="site-url">spline.design</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://meshy.ai" class="site-card" target="_blank"><div class="site-name">Meshy</div><div class="site-desc">AI 3D 模型生成</div><div class="site-url">meshy.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://lumalabs.ai" class="site-card" target="_blank"><div class="site-name">Luma AI</div><div class="site-desc">AI 3D 和神经渲染</div><div class="site-url">lumalabs.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://tripo3d.ai" class="site-card" target="_blank"><div class="site-name">Tripo3D</div><div class="site-desc">AI 3D 模型生成</div><div class="site-url">tripo3d.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://csm.ai" class="site-card" target="_blank"><div class="site-name">CSM</div><div class="site-desc">Common Sense Machines 3D AI</div><div class="site-url">csm.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://kaedim3d.com" class="site-card" target="_blank"><div class="site-name">Kaedim</div><div class="site-desc">2D 转 3D AI 工具</div><div class="site-url">kaedim3d.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://looka.com" class="site-card" target="_blank"><div class="site-name">Looka</div><div class="site-desc">AI Logo 设计工具</div><div class="site-url">looka.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://canva.com" class="site-card" target="_blank"><div class="site-name">Canva</div><div class="site-desc">AI 设计平台</div><div class="site-url">canva.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://remove.bg" class="site-card" target="_blank"><div class="site-name">Remove.bg</div><div class="site-desc">AI 自动抠图工具</div><div class="site-url">remove.bg</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://upscayl.org" class="site-card" target="_blank"><div class="site-name">Upscayl</div><div class="site-desc">开源 AI 图片放大工具</div><div class="site-url">upscayl.org</div><span class="tag tag-open">开源</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">🤖</span>AI 智能体/自动化</h2>
+            <div class="sites-grid">
+                <a href="https://github.com/Significant-Gravitas/AutoGPT" class="site-card" target="_blank"><div class="site-name">AutoGPT</div><div class="site-desc">自主运行的 AI 智能体</div><div class="site-url">github.com/Significant-Gravitas/AutoGPT</div><span class="tag tag-open">开源</span></a>
+                <a href="https://langchain.com" class="site-card" target="_blank"><div class="site-name">LangChain</div><div class="site-desc">构建 LLM 应用的框架</div><div class="site-url">langchain.com</div><span class="tag tag-open">开源</span></a>
+                <a href="https://llamaindex.ai" class="site-card" target="_blank"><div class="site-name">LlamaIndex</div><div class="site-desc">LLM 数据连接框架</div><div class="site-url">llamaindex.ai</div><span class="tag tag-open">开源</span></a>
+                <a href="https://dify.ai" class="site-card" target="_blank"><div class="site-name">Dify</div><div class="site-desc">开源 LLM 应用开发平台</div><div class="site-url">dify.ai</div><span class="tag tag-open">开源</span></a>
+                <a href="https://flowiseai.com" class="site-card" target="_blank"><div class="site-name">Flowise</div><div class="site-desc">可视化构建 LLM 工作流</div><div class="site-url">flowiseai.com</div><span class="tag tag-open">开源</span></a>
+                <a href="https://n8n.io" class="site-card" target="_blank"><div class="site-name">n8n</div><div class="site-desc">开源工作流自动化工具</div><div class="site-url">n8n.io</div><span class="tag tag-open">开源</span></a>
+                <a href="https://make.com" class="site-card" target="_blank"><div class="site-name">Make</div><div class="site-desc">可视化自动化平台</div><div class="site-url">make.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://zapier.com" class="site-card" target="_blank"><div class="site-name">Zapier</div><div class="site-desc">自动化工作流工具</div><div class="site-url">zapier.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://relevanceai.com" class="site-card" target="_blank"><div class="site-name">Relevance AI</div><div class="site-desc">构建 AI 团队和智能体</div><div class="site-url">relevanceai.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://crewai.com" class="site-card" target="_blank"><div class="site-name">CrewAI</div><div class="site-desc">多智能体协作框架</div><div class="site-url">crewai.com</div><span class="tag tag-open">开源</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">📚</span>AI 学习/教育</h2>
+            <div class="sites-grid">
+                <a href="https://khanacademy.org" class="site-card" target="_blank"><div class="site-name">Khan Academy</div><div class="site-desc">可汗学院的 AI 辅导</div><div class="site-url">khanacademy.org</div><span class="tag tag-free">免费</span></a>
+                <a href="https://duolingo.com" class="site-card" target="_blank"><div class="site-name">Duolingo</div><div class="site-desc">AI 语言学习应用</div><div class="site-url">duolingo.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://quizlet.com" class="site-card" target="_blank"><div class="site-name">Quizlet</div><div class="site-desc">AI 学习工具</div><div class="site-url">quizlet.com</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://synthesis.com" class="site-card" target="_blank"><div class="site-name">Synthesis</div><div class="site-desc">AI 思维训练平台</div><div class="site-url">synthesis.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://tutorai.me" class="site-card" target="_blank"><div class="site-name">TutorAI</div><div class="site-desc">AI 个性化辅导</div><div class="site-url">tutorai.me</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://knowji.com" class="site-card" target="_blank"><div class="site-name">Knowji</div><div class="site-desc">AI 词汇学习应用</div><div class="site-url">knowji.com</div><span class="tag tag-freemium">免费/付费</span></a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2><span class="category-icon">💼</span>AI 商业/办公</h2>
+            <div class="sites-grid">
+                <a href="https://microsoft.com/copilot" class="site-card" target="_blank"><div class="site-name">Microsoft Copilot</div><div class="site-desc">微软 Office AI 助手</div><div class="site-url">microsoft.com/copilot</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://workspace.google.com" class="site-card" target="_blank"><div class="site-name">Google Workspace AI</div><div class="site-desc">Google 办公套件 AI</div><div class="site-url">workspace.google.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://otter.ai" class="site-card" target="_blank"><div class="site-name">Otter.ai</div><div class="site-desc">AI 会议记录和转录</div><div class="site-url">otter.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://fireflies.ai" class="site-card" target="_blank"><div class="site-name">Fireflies.ai</div><div class="site-desc">AI 会议助手</div><div class="site-url">fireflies.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://fathom.video" class="site-card" target="_blank"><div class="site-name">Fathom</div><div class="site-desc">AI 会议摘要工具</div><div class="site-url">fathom.video</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://claralabs.com" class="site-card" target="_blank"><div class="site-name">Clara</div><div class="site-desc">AI 会议调度助手</div><div class="site-url">claralabs.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://usemotion.com" class="site-card" target="_blank"><div class="site-name">Motion</div><div class="site-desc">AI 日程管理工具</div><div class="site-url">usemotion.com</div><span class="tag tag-paid">付费</span></a>
+                <a href="https://reclaim.ai" class="site-card" target="_blank"><div class="site-name">Reclaim.ai</div><div class="site-desc">AI 时间管理工具</div><div class="site-url">reclaim.ai</div><span class="tag tag-freemium">免费/付费</span></a>
+                <a href="https://getclockwise.com" class="site-card" target="_blank"><div class="site-name">Clockwise</div><div class="site-desc">AI 日历优化工具</div><div class="site-url">getclockwise.com</div><span class="tag tag-freemium">免费/付费</span></a>
             </div>
         </div>
 
         <footer>
-            <p>🤖 AI 导航站 - 持续更新中</p>
+            <p>🤖 AI 导航站 - 持续更新中 | 收录 150+ 主流 AI 工具</p>
         </footer>
     </div>
 
@@ -332,17 +263,11 @@
             const input = document.getElementById('searchInput');
             const filter = input.value.toLowerCase();
             const cards = document.getElementsByClassName('site-card');
-            
             for (let i = 0; i < cards.length; i++) {
                 const name = cards[i].getElementsByClassName('site-name')[0];
                 const desc = cards[i].getElementsByClassName('site-desc')[0];
                 const text = (name.textContent + desc.textContent).toLowerCase();
-                
-                if (text.indexOf(filter) > -1) {
-                    cards[i].style.display = '';
-                } else {
-                    cards[i].style.display = 'none';
-                }
+                cards[i].style.display = text.indexOf(filter) > -1 ? '' : 'none';
             }
         }
     </script>
